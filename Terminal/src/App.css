@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+body{  
+  background: rgb(211, 212, 214);
+  background-image: url('./image/background1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover ;
+}
+#lg{
+  display: flex;
+  justify-content: center;
+  /* background-image: url('./image/background1.jpg');
+  background-position: center;
+  background-repeat: no-repeat; */
+
+}
+
+#login {
+  padding: 20px 67px;
+  background: linear-gradient(90deg, rgb(128, 186, 247) 0%, rgb(201, 218, 236) 45%, rgb(132, 190, 204) 100%);
+  margin: 10% 0;
+  width: 34%;
+  box-shadow: 2px 2px 6px 2px grey;
+}
+
+#login > h1{
+  text-align: center;
+  color: white;
+  margin: 10% 0;
+}
+
+#login p{
+  padding: 14px 0;
+}
+
+#login >div>div {
+  color: white;
+  font-size: 22px;
+}
+
+.input {
+  display: flex;
+  justify-content: space-between;
+}
+
+#login input {
+  width: 93%;
+  font-size: 18px;
+  padding: 5px 12px;
+  border-radius: 15px;
+  border: none;
+  color: #657479;
+}
+
+#signin {
+  display: flex;
+  justify-content: center;
+  margin: 8% 0 6%;
+}
+
+#signin>button {
+  font-size: 20px;
+  color: white;
+  padding: 7px 16px;
+  border-radius: 18px;
+  border: none;
+  background: #658c85;
+}
+
+#signin>button:hover {
+  background: #4a6761;
+}
+
+#todoterminal {
+  width: 100%;
+}
+
+table{
+  width: 100%;
+  border: 1px solid #333;
+}
+
+
+thead {
+    background-color: #658c85;
+    color: #fff;
+}
+
+td {
+  background: white;
+  width: 20%;
+  border: 1px solid #333;
+  font-size: 16px;
+ 
+}
+
+#loginerror {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  padding: 5px;
+}
+
+#todoterminal>div {
+  display: flex;
+  justify-content: center;
+}
+#todoterminal>div>div {
+  width: 80%;
+}
+
+#todoterminal > header {
+  border: 1px solid #aeaaab;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  background: #343938;;
+  box-shadow: 0 1px 15px 2px #989191;
+  color: white;
+  font-size: 24px;
+
+}
+
+#todoterminal > header>div:nth-child(1) {
+  padding-left: 25px;
+}
+
+#todoterminal > header span{
+  font-size: 16px;
+}
+
+#todoterminal > header h2{
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+}
+
+#productinterminal {
+   display: flex;
+   justify-content: center;
+}
+
+#todoterminal td input {
+  width: 100%;
+  font-size: 16px;
+  border: none;
+  padding: 2px 5px;
+}
+
+#amount {
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 2% 0;
+
+}
+
+#amount>div {
+  width: 20%;
+}
+
+#amount>div >span {
+  padding: 2% 0 2% 0;
+  width: 100%;
+  margin-top: 3%;
+  display: block;
+
+}
+#amount>div >span:nth-child(2) {
+  background: white;
+  padding: 2% 0 2% 3%;
+}
+#todoterminal > header>span {
+  padding-top: 1.5%;
+}
+
+
+ul ul {
+  display: none;
+}
+
+#transactionlist > li {
+  padding: 5% 30px 5% 10px;
+  position: relative;
+}
+#transactionlist  li:hover{
+  background: #4b5154;
+}
+
+#transactionlist > li:hover ul {
+  display: inline;
+}
+#transactionlist > li > ul {
+  position: absolute;
+  top:100%;
+  left: 0;
+  background: #343938;
+  width: 100%;
+  padding: 7% 0;
+}
+#transactionlist > li  li {
+  padding: 2% 3%;
+}
+
+#transactionlist {
+  width: 30%;
+}
+
+#changer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#changer>div {
+  margin-left: 0.1%;
+  color: #343938;
+  font-size: 16px;
+  width: 20%;
+}
+
+#changer input {
+  padding: 5px 4px;
+  width: 100%;
+  margin-top: 6.8%;
+}
+
+#changer>div span {
+  padding: 3.3px 4px;
+  width: 100%;
+  margin-top: 7.4%;
+  display: block;
+  background: white;
+  height: 28px;
+}
+#done {
+  display: flex;
+  justify-content: flex-end;
+  margin: 3% 0;
+}
+
+#done button {
+  font-size: 16px;
+  border: none;
+  background: #658c85;
+  border-radius: 24px;
+  color: white;
+  font-weight: 700;
+  padding: 11px 35px;
+}
+
+#donetrans {
+  margin-right: 10px;
+}
+
+#donetrans:hover {
+  background: cadetblue;
+}
+
+#canceltrans:hover {
+  background: crimson;
+}
+
+#branchname{
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+}
+
+#branchname >select{
+  background-color: transparent;
+  font-size: 16px;
+  padding: 5px;
+  border: none;
+  color: #bbb;
+}
+
+#logout {
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 20px;
+  padding: 21.9% 30px 21%
+}
+
+#logout:hover {
+  background: #4b5154;
+}
+
+.radio {
+  padding-top: 38px;
+  font-size: 16px;
+}
+
+.radio label {
+  padding-right: 13px;
+}
+
+.nonegivenmoney {
+  border: 1px solid red;
+}
