@@ -1,0 +1,250 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+body{  
+  background: #34495e;
+  /* background-image: url('./image/background1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover ; */
+}
+#root{
+  display: flex;
+  justify-content: center;
+  /* background-image: url('./image/background1.jpg');
+  background-position: center;
+  background-repeat: no-repeat; */
+
+}
+
+#login {
+  width: 30%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #191919;
+  text-align: center;
+}
+
+#login > h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+#login p{
+  padding: 14px 0;
+}
+
+#login >div>div {
+  color: white;
+  font-size: 22px;
+}
+
+.input {
+  display: flex;
+  justify-content: space-between;
+}
+
+#login input {
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  width: 70%;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+#login input:focus{
+  width: 100%;
+  border-color: #2ecc71;
+}
+
+#signin {
+  display: flex;
+  justify-content: center;
+  margin: 8% 0 6%;
+}
+
+#signin>button {
+  border:0;
+  background: none;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 40px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+#signin>button:hover {
+  background: #2ecc71;
+}
+
+#todoterminal {
+  width: 100%;
+}
+
+table{
+  width: 100%;
+  border: 1px solid #333;
+}
+
+
+thead {
+    background-color: #658c85;
+    color: #fff;
+}
+
+td {
+  background: white;
+  width: 20%;
+  border: 1px solid #333;
+  font-size: 16px;
+ 
+}
+
+#loginerror {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  padding: 5px;
+}
+
+#todoterminal>div {
+  display: flex;
+  justify-content: center;
+}
+#todoterminal>div>div {
+  width: 80%;
+}
+
+#todoterminal > header {
+  border: 1px solid #aeaaab;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+  background: #343938;;
+  box-shadow: 0 1px 15px 2px #989191;
+  color: white;
+  font-size: 24px;
+
+}
+
+#productinterminal {
+   display: flex;
+   justify-content: center;
+}
+
+#todoterminal td input {
+  width: 100%;
+  font-size: 16px;
+  border: none;
+  padding: 2px 5px;
+}
+
+#amount {
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 2% 0;
+
+}
+
+#amount>div {
+  width: 20%;
+}
+
+#amount>div >span {
+  padding: 2% 0 2% 0;
+  width: 100%;
+  margin-top: 3%;
+  display: block;
+
+}
+#amount>div >span:nth-child(2) {
+  background: white;
+  padding: 2% 0 2% 3%;
+}
+#todoterminal > header>span {
+  padding-top: 1.5%;
+}
+
+
+ul ul {
+  display: none;
+}
+
+#transactionlist > li {
+  padding: 8% 30px 8% 10px;
+  position: relative;
+}
+#transactionlist  li:hover{
+  background: #4b5154;
+}
+
+#transactionlist > li:hover ul {
+  display: inline;
+}
+#transactionlist > li > ul {
+  position: absolute;
+  top:100%;
+  left: 0;
+  background: #343938;
+  width: 100%;
+  padding: 7% 0;
+}
+#transactionlist > li  li {
+  padding: 2% 3%;
+}
+
+#changer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#changer>div {
+  margin-left: 0.1%;
+  color: #343938;
+  font-size: 16px;
+  width: 20%;
+}
+
+#changer input {
+  padding: 5px 4px;
+  width: 100%;
+  margin-top: 14px;
+}
+
+#done {
+  display: flex;
+  justify-content: flex-end;
+  margin: 3% 0;
+}
+
+#done button {
+  font-size: 16px;
+  border: none;
+  background: #658c85;
+  border-radius: 24px;
+  color: white;
+  font-weight: 700;
+  padding: 11px 35px;
+}
