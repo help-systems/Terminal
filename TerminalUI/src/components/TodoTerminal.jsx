@@ -1,48 +1,42 @@
 import React from "react";
-import TodoTransactionList from "./TodoTransactionList";
 
-class TodoTerminal extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            showTransaction:false,
-            transactionlist:[]
-        }
-    }
-    todoTransaction = () => {
-        fetch('http://localhost:5000/questions',{
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(this.state.user)
-        })
-        .then(response => {
-            console.log(response);
-        
-        })
-        .catch(error =>{
-          console.log(error);
-        })
-    }
+class TodoTerminal extends React.Component {    
+
 
     render() {
         const products = this.props.products;
-        console.log(products);
+        const transaction_list = this.props.transaction_list;
         return(
             <div id="todoterminal">
                 <header>
-                    <span>Cashier info</span>
+                    <div>
+                        <h3>{this.props.cashier_info.cashier_Name}</h3>
+                        <span>
+                            {this.props.cashier_info.cashier_Rank}
+                        </span>
+                    </div>
                     <ul id= "transactionlist" >
                         <li>Transactions's Manu
                             <ul>
-                                <li>hkdjghdk</li>
-                                <li>shgduhgg</li>
+                                {transaction_list.map(item =>{ 
+                                    return(
+                                        <li key={item.Id}>
+                                            {"ID"}{"  "}
+                                            {item.Id}{"|  $"}
+                                            {item.Amount}{"|  "}
+                                            {item.Status}
+                                        </li>
+                                    )   
+                                })}
                             </ul>
                         </li>
                     </ul>
-                    {/* <button onClick = {this.todoTransaction}>Transactions's Manu</button>                 */}
+                    <div>
+                        <button id = "logout" onClick = {this.props.LogOut}>
+                            Log Out
+                        </button>
+                    </div>
+                    
                 </header>
                 <div>
                     <div>
@@ -53,8 +47,8 @@ class TodoTerminal extends React.Component {
                                         <th>Barcode</th>
                                         <th>Product Name</th>
                                         <th>Supplier Name</th>
-                                        <th>Product count</th>
                                         <th>Price</th>
+                                        <th>Product count</th>   
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,6 +62,11 @@ class TodoTerminal extends React.Component {
                                                             type="text" 
                                                             value = {item.barcode} 
                                                             onChange={(e)=>{this.props.handleBarcodeInput(item.key,e)}}
+                                                            onKeyPress={event => {
+                                                                if (event.key === 'Enter') {
+                                                                  this.props.searchBarcode(item.key,event)
+                                                                }
+                                                              }}
                                                         />
                                                     </td>
                                                     <td>
@@ -77,15 +76,15 @@ class TodoTerminal extends React.Component {
                                                         {item.supplier_Name}
                                                     </td>
                                                     <td>
+                                                        {item.selling_Price}
+                                                    </td>
+                                                    <td>
                                                         <input 
                                                             type="number" 
                                                             min= '1' 
                                                             value = {item.count}
                                                             onChange ={(e)=> {this.props.inputProductCount(item.key,e)}}
                                                         />
-                                                    </td>
-                                                    <td>
-                                                        {item.selling_Price}
                                                     </td>
                                                 </tr>
                                             );
@@ -96,26 +95,66 @@ class TodoTerminal extends React.Component {
                             </table>
                         </div>
                         <div id = "amount">
+                        <div className="radio">
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    value="Cash" 
+                                    name = "Payment Type"
+                                    checked={this.props.payment_Type === "Cash"} 
+                                    onChange={this.props.handlePaymentType}
+                                />
+                                Cash
+                            </label>
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    value="Card" 
+                                    name = "Payment Type"                                
+                                    checked={this.props.payment_Type === "Card"}  
+                                    onChange={this.props.handlePaymentType}
+                                />
+                                Card
+                            </label>
+                        </div>
                             <div>
                                 <span>Amount</span>
-                                <span>5000000</span>
+                                <span>
+                                    {this.props.amount}
+                                </span>
                             </div>
                         </div>
                         <div id = "changer">
                             <div>
                                 <p>Given money</p>
-                                <input 
+                                {
+                                    this.props.is_givenmoney ? 
+                                    <input 
                                     type="text"
+                                    value = {this.props.givenmoney}
                                     onChange = {this.props.inputGivenMoney}
                                 />
+                                :
+                                <input 
+                                    type="text"
+                                    value = {this.props.givenmoney}
+                                    onChange = {this.props.inputGivenMoney}
+                                    className = "nonegivenmoney"
+                                 />
+                                }
+                                
                             </div>
                             <div>
                                 <p>Change</p>
-                                <input type="text"/>
+                                {this.props.givenmoney - this.props.amount >= 0?
+                                <span>{this.props.givenmoney - this.props.amount}</span>:
+                                <span></span>    
+                                }
+                                 
                             </div>
                         </div>
                         <div id ="done">
-                            <button 
+                        <button 
                                 id = "donetrans"
                                 onClick = {this.props.transactionDone} >
                                   Done

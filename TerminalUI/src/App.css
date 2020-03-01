@@ -13,7 +13,7 @@ body{
   background-repeat: no-repeat;
   background-size: cover ;
 }
-#root{
+#lg{
   display: flex;
   justify-content: center;
   /* background-image: url('./image/background1.jpg');
@@ -121,12 +121,25 @@ td {
   margin-bottom: 40px;
   display: flex;
   justify-content: space-between;
-  padding: 0 10%;
   background: #343938;;
   box-shadow: 0 1px 15px 2px #989191;
   color: white;
   font-size: 24px;
 
+}
+
+#todoterminal > header>div:nth-child(1) {
+  padding-left: 25px;
+}
+
+#todoterminal > header span{
+  font-size: 16px;
+}
+
+#todoterminal > header h2{
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
 }
 
 #productinterminal {
@@ -174,7 +187,7 @@ ul ul {
 }
 
 #transactionlist > li {
-  padding: 8% 30px 8% 10px;
+  padding: 5% 30px 5% 10px;
   position: relative;
 }
 #transactionlist  li:hover{
@@ -196,6 +209,10 @@ ul ul {
   padding: 2% 3%;
 }
 
+#transactionlist {
+  width: 30%;
+}
+
 #changer {
   display: flex;
   justify-content: flex-end;
@@ -211,9 +228,17 @@ ul ul {
 #changer input {
   padding: 5px 4px;
   width: 100%;
-  margin-top: 14px;
+  margin-top: 6.8%;
 }
 
+#changer>div span {
+  padding: 3.3px 4px;
+  width: 100%;
+  margin-top: 7.4%;
+  display: block;
+  background: white;
+  height: 28px;
+}
 #done {
   display: flex;
   justify-content: flex-end;
@@ -233,6 +258,7 @@ ul ul {
 #donetrans {
   margin-right: 10px;
 }
+
 #donetrans:hover {
   background: cadetblue;
 }
@@ -241,3 +267,41 @@ ul ul {
   background: crimson;
 }
 
+#branchname{
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+}
+
+#branchname >select{
+  background-color: transparent;
+  font-size: 16px;
+  padding: 5px;
+  border: none;
+  color: #bbb;
+}
+
+#logout {
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 20px;
+  padding: 21.9% 30px 21%
+}
+
+#logout:hover {
+  background: #4b5154;
+}
+
+.radio {
+  padding-top: 38px;
+  font-size: 16px;
+}
+
+.radio label {
+  padding-right: 13px;
+}
+
+.nonegivenmoney {
+  border: 1px solid red;
+}
