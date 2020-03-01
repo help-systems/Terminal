@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       user:{username:"",password:""},
       loginsituation: false,
+      base_url: "http://localhost:58423/",
       cashier_info:"",
       branches:[],
       Branch_name: "",
@@ -136,7 +137,7 @@ class App extends React.Component {
 
     if(barcode.trim() !== ""){
 
-      let url = `http://localhost:58423/Products?barcode=${barcode}`;
+      let url = this.state.base_url + `Products?barcode=${barcode}`;
       let response = await fetch(url);
       let data = await response.json();
 
@@ -193,7 +194,7 @@ class App extends React.Component {
 
   async Login() {
   
-    let url = 'http://localhost:58423/Users/';
+    let url =this.state.base_url+ 'Users/';
     let settings = {
       method: "POST",
       headers: {
@@ -211,7 +212,7 @@ class App extends React.Component {
     let data = await response.json();
   
     if(data && this.state.Branch_name!== "" && this.state.Branch_name!== "Select Branch"){
-      url = `http://localhost:58423/Cashiers?username=${this.state.user.username}`;
+      url = this.state.base_url + `Cashiers?username=${this.state.user.username}`;
 
       response = await fetch(url);
       data = await response.json();  
@@ -320,7 +321,7 @@ class App extends React.Component {
 
       transaction_list.push(transaction);
 
-      let url = 'http://localhost:58423/Transactions'
+      let url = this.state.base_url + 'Transactions'
       let settings = {
         method: "POST",
         headers: {
@@ -338,30 +339,31 @@ class App extends React.Component {
       let data = await response.json();
     
       const products = this.state.products;
-
-      for (let i = 0; i < products.length; i++) {
-
+      let current_prod = [];
+      for (let i = 0; i < products.length; i++){
         if(products[i].barcode!==""){
-
-          url = 'http://localhost:58423/Products';
-          settings = {
-            method: "PUT",
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-      
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-                'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
-            },
-            body:JSON.stringify(products[i])
-          };
-          response = await fetch(url,settings);
-          data = await response.json();
-
+          current_prod.push(products[i]);
         }
-      }
+      }       
+
+      url = this.state.base_url + 'Products';
+      settings = {
+        method: "PUT",
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+  
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+            'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
+        },
+        body:JSON.stringify(current_prod)
+      };
+      response = await fetch(url,settings);
+      data = await response.json();
+
+      
       let newproducts = [];
 
       for (let i = 0; i < 6; i++) {
@@ -398,7 +400,7 @@ class App extends React.Component {
     };
     transaction_list.push(transaction);
 
-    let url = 'http://localhost:58423/Transactions'
+    let url = this.state.base_url + 'Transactions';
     let settings = {
       method: "POST",
       headers: {
