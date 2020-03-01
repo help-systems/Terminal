@@ -55,9 +55,9 @@ namespace TERMINAL
 
             //services.AddCors();     
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddReact();
-            //services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,48 +68,18 @@ namespace TERMINAL
                 app.UseDeveloperExceptionPage();
             }
 
-        //  app.UseReact(config => { });
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            //app.UseCors(builder => builder.AllowAnyOrigin()); //
-
-
-            //app.UseCors(builder => builder.WithOrigins("http://localhost:3000/")
-            //                .AllowAnyHeader()
-            //                .AllowAnyMethod());
-
-
             app.UseCors("AllowAllHeaders");
-
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //    });
-            //});
-
-            //app.UseEndpoints(endpoints =>       // 3
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("Hello World!");
-            //        context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:3000/");
-            //        context.Response.Headers.Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-            //        context.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
-            //    });
-            //});
         }
     }
 }

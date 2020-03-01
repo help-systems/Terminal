@@ -41,7 +41,7 @@ class App extends React.Component {
   }
   async componentDidMount() {  
 
-    let url = `http://localhost:58423/Terminal/GetBranches/`;      
+    let url = `http://localhost:58423/Branches/`;      
     let response = await fetch(url);
     let branches = await response.json();
 
@@ -136,7 +136,7 @@ class App extends React.Component {
 
     if(barcode.trim() !== ""){
 
-      let url = `http://localhost:58423/Terminal/GetProducts/${barcode}`;      
+      let url = `http://localhost:58423/Products?barcode=${barcode}`;
       let response = await fetch(url);
       let data = await response.json();
 
@@ -193,7 +193,7 @@ class App extends React.Component {
 
   async Login() {
   
-    let url = `http://localhost:58423/Terminal/Login/${JSON.stringify (this.state.user)}`;
+    let url = 'http://localhost:58423/Users/';
     let settings = {
       method: "POST",
       headers: {
@@ -205,13 +205,13 @@ class App extends React.Component {
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
           'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
       },
-      body: `${this.state.user}`
+      body: JSON.stringify(this.state.user)
     };
     let response = await fetch(url,settings);
     let data = await response.json();
   
     if(data && this.state.Branch_name!== "" && this.state.Branch_name!== "Select Branch"){
-      url = `http://localhost:58423/Terminal/GetCashier/${this.state.user.username}`;
+      url = `http://localhost:58423/Cashiers?username=${this.state.user.username}`;
 
       response = await fetch(url);
       data = await response.json();  
@@ -320,7 +320,7 @@ class App extends React.Component {
 
       transaction_list.push(transaction);
 
-      let url = `http://localhost:58423/Terminal/PostTransactions/${JSON.stringify(transaction)}`
+      let url = 'http://localhost:58423/Transactions'
       let settings = {
         method: "POST",
         headers: {
@@ -343,9 +343,9 @@ class App extends React.Component {
 
         if(products[i].barcode!==""){
 
-          url = `http://localhost:58423/Terminal/Update/${JSON.stringify(products[i])}`;
+          url = 'http://localhost:58423/Products';
           settings = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -398,7 +398,7 @@ class App extends React.Component {
     };
     transaction_list.push(transaction);
 
-    let url = `http://localhost:58423/Terminal/PostTransactions/${JSON.stringify(transaction)}`
+    let url = 'http://localhost:58423/Transactions'
     let settings = {
       method: "POST",
       headers: {
