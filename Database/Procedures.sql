@@ -10,13 +10,13 @@ AS
 			Rank = 'Warehouse Manager')
 GO
 
-CREATE PROC ProductModel 
+CREATE PROC GetProducts 
 AS
 	SELECT Barcode, Cost_Price, Selling_Price, Supplier_Name, Name, Category_Name, Branch_name, Count
 	FROM Products as P join Products_in_Branches as PiB on P.Barcode = PiB.Product_code 
 GO
 
-CREATE PROC UP
+CREATE PROC PutProducts
 	@Product_code char(14),
 	@Branch_name varchar(50),
 	@Count int
@@ -33,6 +33,51 @@ AS
 	FROM Users AS U join Workers AS W on U.Id = W.Worker_Id
 	Where Username = isnull(@Username,Username) and 
 		(Rank = 'Cashier' or Rank = 'Branch Manager' or Rank = 'Warehouse Manager')
+GO
+
+CREATE PROC GetBranches
+	@Branch_Name VARCHAR(50) = null
+AS
+	SELECT Branch_Name FROM Branches
+	WHERE Branch_Name = ISNULL(@Branch_Name, Branch_Name)
+GO
+
+CREATE PROC GetTransactions
+	@Id BIGINT = null
+AS
+	SELECT * FROM Transactions
+	WHERE Id = ISNULL(@Id, Id)
+GO
+
+CREATE PROC PostTransaction
+	@Amount MONEY,
+	@Status CHAR(10),
+	@Payment_Type CHAR(10),
+	@Branch_name VARCHAR(50)
+AS
+	INSERT INTO Transactions (Amount, Status, Payment_Type, Branch_name)
+	VALUES (@Amount, @Status, @Payment_Type, @Branch_name)
+GO
+
+CREATE PROC PutTransaction
+	@Id BIGINT,
+	@Amount MONEY, 
+	@Status CHAR(10),
+	@Payment_Type CHAR(10),
+	@Branch_name VARCHAR(50) 
+AS 
+	UPDATE Transactions SET
+		Amount = @Amount,
+		Status = @Status,
+		Payment_Type = @Payment_Type,
+		Branch_name = @Branch_name
+			WHERE Id = @Id
+GO
+
+CREATE PROC DeleteTransaction 
+    @Id BIGINT
+AS 
+	DELETE FROM Transactions WHERE  Id = @Id
 GO
 
 ---------------------------------------------------------------------

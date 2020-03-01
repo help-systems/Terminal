@@ -22,8 +22,6 @@ namespace TERMINAL.DataAccess
 
          public TransactionModel CreateTransaction(TransactionModel transaction)    // For Post Request
          {
-            int NewTransactId;
-
             long Id = transaction.Id;
             decimal Amount = transaction.Amount;
             string Status = transaction.Status;
@@ -37,13 +35,9 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = string.Format("insert into Transactions (Amount, Status, Payment_Type, Branch_name) " +
-                        "values ('{0}', '{1}', '{2}', '{3}')", Amount, Status, Payment_Type, Branch_name);
 
+                    cmd.CommandText = $"EXEC PostTransaction '{Amount}','{Status}','{Payment_Type}','{Branch_name}'";
                     cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = "SELECT SCOPE_IDENTITY()";
-                    NewTransactId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception ex)
@@ -70,7 +64,7 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = "select * from Transactions";
+                    cmd.CommandText = "EXEC GetTransactions";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -118,10 +112,8 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = string.Format("update Transactions set " +
-                        "Amount = '{0}', Status = '{1}', Payment_Type = '{2}', Branch_name = '{3}' " +
-                            "where Id = '{4}'", Amount, Status, Payment_Type, Branch_name, Id);
 
+                    cmd.CommandText = $"EXEC PutTransaction {Id},{Amount},'{Status}','{Payment_Type}','{Branch_name}'";
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -138,7 +130,7 @@ namespace TERMINAL.DataAccess
         }
 
 
-        public int DeleteTransaction(int id)        // For Delete Request
+        public int DeleteTransaction(int Id)        // For Delete Request
         {
             try
             {
@@ -147,8 +139,8 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = string.Format("delete from Transactions where Id = {0}", id);
 
+                    cmd.CommandText = $"EXEC DeleteTransaction {Id}";
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -160,7 +152,7 @@ namespace TERMINAL.DataAccess
             {
                 CloseConnection();
             }
-            return id;
+            return Id;
         }
 
         private void OpenConnection()

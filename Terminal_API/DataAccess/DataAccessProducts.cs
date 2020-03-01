@@ -30,7 +30,7 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = "EXEC ProductModel";
+                    cmd.CommandText = "EXEC GetProducts";
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -79,13 +79,8 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = string.Format("EXEC UP '{0}','{1}','{2}'",Barcode,Branch_name,Count);
-
-
-                    //cmd.CommandText = string.Format("update Products_in_Branches set " +
-                    //    "Count = '{0}', Product_code = '{1}', Branch_name = '{2}'" +
-                    //        "where Product_code = '{1}' and Branch_name = '{2}'", Count, Barcode, Branch_name);
-
+                    cmd.CommandText = string.Format("EXEC PutProducts '{0}','{1}','{2}'", Barcode,Branch_name,Count);
+                    
                     cmd.ExecuteNonQuery();
                 }
             }

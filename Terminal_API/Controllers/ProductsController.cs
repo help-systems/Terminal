@@ -36,11 +36,11 @@ namespace TERMINAL.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put (ProductModel product)
+        public IActionResult Put (List<ProductModel> product)
         {
             try
-            {          
-                var result = Data.UpdateProduct(product);
+            {                         
+                var result = Data.UpdateProduct(product.First());
 
                 if (result == null)
                     return NotFound();
@@ -52,6 +52,5 @@ namespace TERMINAL.Controllers
                 return BadRequest(ex);
             }
         }
-
     }
 }

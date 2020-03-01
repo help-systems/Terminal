@@ -49,6 +49,5 @@ namespace TERMINAL.Controllers
                 return BadRequest(ex);
             }
         }
-
     }
 }

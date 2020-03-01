@@ -26,20 +26,16 @@ namespace TERMINAL.Controllers
                 var username = user.Username;
                 var result = Data.GetUser().Where(x => x.Username == username).ToList();
 
-
                 if (result.Count != 0 && user.Password == result.Last().Password)
                 {
                     return Ok(true);
                 }
-                else return Ok(false);
-                
-   
+                else return Ok(false);   
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-
     }
 }

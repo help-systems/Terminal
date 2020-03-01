@@ -30,7 +30,7 @@ namespace TERMINAL.DataAccess
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = _connnection;
-                    cmd.CommandText = string.Format("SELECT Branch_Name FROM Branches");
+                    cmd.CommandText = string.Format("EXEC GetBranches");
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

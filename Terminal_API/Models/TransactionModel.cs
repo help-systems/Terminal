@@ -14,5 +14,6 @@ namespace TERMINAL.Models
         public string Branch_name { get; set; }
 
         public DateTime Date { get; set; } = DateTime.Now;
+        public List<ProductModel> ProductList { get; set; }
     }
 }

@@ -51,13 +51,7 @@ namespace TERMINAL
             //                .AllowAnyHeader()
             //                .AllowAnyMethod();
             //        });
-            //});
-
-            //services.AddCors();     
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddReact();
-            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
+            //});   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
