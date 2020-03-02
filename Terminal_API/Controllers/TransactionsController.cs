@@ -40,7 +40,7 @@ namespace TERMINAL.Controllers
         {
             try
             {
-                var result = Data.CreateTransaction(transaction);
+                var result = Data.Test(transaction);
 
                 return Ok(result);
             }

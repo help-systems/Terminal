@@ -20,6 +20,64 @@ namespace TERMINAL.DataAccess
         }
 
 
+        public TransactionModel Test (TransactionModel tran)
+        {
+            SqlTransaction transaction = null;
+
+            long Id = tran.Id;
+            decimal Amount = tran.Amount;
+            string Status = tran.Status;
+            string Payment_Type = tran.Payment_Type;
+            string Branch_name = tran.Branch_name;
+            List<ProductModel> ProductList = tran.ProductList;
+
+            string SQL = $"EXEC PostTransaction '{Amount}','{Status}','{Payment_Type}','{Branch_name}'";
+
+            try
+            {
+                _connnection.Open();
+                transaction = _connnection.BeginTransaction();
+
+                using (SqlCommand cmd = new SqlCommand(SQL, _connnection, transaction)) 
+                {
+                    //cmd.ExecuteNonQuery();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //int i = 0;
+                            
+                            Id = (Int64)reader.GetDecimal(0);
+                        }
+                    }
+                }
+
+                foreach (var l in ProductList)
+                {
+                    using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PutProducts '{0}','{1}','{2}'",
+                        l.Barcode, l.Branch_name, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
+
+                    using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PostProductInTransaction '{0}','{1}',{2}",
+                        Id, l.Barcode, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
+                }
+
+                transaction.Commit();
+
+                return tran;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw (ex);
+            }
+
+            finally
+            {
+                CloseConnection();
+            }                   
+        }
+
          public TransactionModel CreateTransaction(TransactionModel transaction)    // For Post Request
          {
             long Id = transaction.Id;

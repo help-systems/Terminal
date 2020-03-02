@@ -8,12 +8,14 @@ AS
 		WHERE Rank = 'Cashier' or 
 			Rank = 'Branch Manager' or 
 			Rank = 'Warehouse Manager')
+
 GO
 
 CREATE PROC GetProducts 
 AS
 	SELECT Barcode, Cost_Price, Selling_Price, Supplier_Name, Name, Category_Name, Branch_name, Count
 	FROM Products as P join Products_in_Branches as PiB on P.Barcode = PiB.Product_code 
+
 GO
 
 CREATE PROC PutProducts
@@ -24,6 +26,7 @@ AS
 	Update Products_in_Branches SET
 	Count = Count - @Count
 	WHERE TRIM(Product_code) = @Product_code and Branch_name = @Branch_name
+
 GO
 
 CREATE PROC GetCashier
@@ -33,6 +36,7 @@ AS
 	FROM Users AS U join Workers AS W on U.Id = W.Worker_Id
 	Where Username = isnull(@Username,Username) and 
 		(Rank = 'Cashier' or Rank = 'Branch Manager' or Rank = 'Warehouse Manager')
+
 GO
 
 CREATE PROC GetBranches
@@ -40,6 +44,7 @@ CREATE PROC GetBranches
 AS
 	SELECT Branch_Name FROM Branches
 	WHERE Branch_Name = ISNULL(@Branch_Name, Branch_Name)
+
 GO
 
 CREATE PROC GetTransactions
@@ -47,6 +52,7 @@ CREATE PROC GetTransactions
 AS
 	SELECT * FROM Transactions
 	WHERE Id = ISNULL(@Id, Id)
+
 GO
 
 CREATE PROC PostTransaction
@@ -57,6 +63,8 @@ CREATE PROC PostTransaction
 AS
 	INSERT INTO Transactions (Amount, Status, Payment_Type, Branch_name)
 	VALUES (@Amount, @Status, @Payment_Type, @Branch_name)
+	SELECT SCOPE_IDENTITY()
+
 GO
 
 CREATE PROC PutTransaction
@@ -72,12 +80,24 @@ AS
 		Payment_Type = @Payment_Type,
 		Branch_name = @Branch_name
 			WHERE Id = @Id
+
 GO
 
 CREATE PROC DeleteTransaction 
     @Id BIGINT
 AS 
 	DELETE FROM Transactions WHERE  Id = @Id
+
+GO
+
+CREATE PROC PostProductInTransaction
+	@TransactionID BIGINT,
+	@ProductsCode CHAR(14),
+    @Count INT
+AS
+	INSERT INTO Transaction_Products (TransactionID, ProductsCode, Count)
+	VALUES (@TransactionID, @ProductsCode, @Count)
+
 GO
 
 ---------------------------------------------------------------------
@@ -98,6 +118,7 @@ AS
 		Trim(Name) = isnull(@Name, Name) and
 		Trim(Category_Name) = isnull(@Category_Name, Category_Name) and
 		Trim(Supplier_Name) = isnull(@Supplier_Name, Supplier_Name)
+
 GO
 
 CREATE PROC SearchInWarehouse
@@ -113,4 +134,5 @@ AS
 		Name = isnull(@Name, Name) and
 		Category_Name = isnull(@Category_Name, Category_Name) and
 		Supplier_Name = isnull(@Supplier_Name, Supplier_Name)
+
 GO
