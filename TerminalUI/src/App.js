@@ -42,7 +42,7 @@ class App extends React.Component {
   }
   async componentDidMount() {  
 
-    let url = `http://localhost:58423/Branches/`;      
+    let url = this.state.base_url + `Branches/`;      
     let response = await fetch(url);
     let branches = await response.json();
 
@@ -106,7 +106,15 @@ class App extends React.Component {
     });
 
     if (products[products.length -1].barcode !== "") {
-      products[products.length] = {key:products.length,barcode:"",count:"", product_name:"", supplier_Name:"", selling_Price:"",Branch_name:this.state.Branch_name};
+      products[products.length] = {
+        key:products.length,
+        barcode:"",
+        count:"", 
+        product_name:"", 
+        supplier_Name:"", 
+        selling_Price:"",
+        Branch_name:this.state.Branch_name
+      };
     }
     
     this.setState({
@@ -252,7 +260,15 @@ class App extends React.Component {
     
     var products = [];
     for (let i = 0; i < 6; i++) {
-     products[i] = {key:i,barcode:"",count:"", product_name:"", supplier_Name:"", selling_Price:"",Branch_name:this.state.Branch_name};
+     products[i] = {
+        key:i,
+        barcode:"",
+        count:"", 
+        product_name:"", 
+        supplier_Name:"", 
+        selling_Price:"",
+        Branch_name:this.state.Branch_name
+      };
       
     }
     this.setState({
@@ -311,12 +327,22 @@ class App extends React.Component {
 
     if(this.state.amount !== 0 && this.state.givenmoney >= this.state.amount){
 
+      const products = this.state.products;
+      let current_prod = [];
+      for (let i = 0; i < products.length; i++){
+        if(products[i].barcode!==""){
+          current_prod.push(products[i]);
+        }
+      }
+
       let transaction = {
         Id: transaction_list.length,
         Amount: this.state.amount,
         Status: "Completed",
         Payment_Type,
-        Branch_name
+        Branch_name,
+        date:new Date(),
+        productList:current_prod
       };
 
       transaction_list.push(transaction);
@@ -338,36 +364,43 @@ class App extends React.Component {
       let response = await fetch(url,settings);
       let data = await response.json();
     
-      const products = this.state.products;
-      let current_prod = [];
-      for (let i = 0; i < products.length; i++){
-        if(products[i].barcode!==""){
-          current_prod.push(products[i]);
-        }
-      }       
+      // const products = this.state.products;
+      // let current_prod = [];
+      // for (let i = 0; i < products.length; i++){
+      //   if(products[i].barcode!==""){
+      //     current_prod.push(products[i]);
+      //   }
+      // }       
 
-      url = this.state.base_url + 'Products';
-      settings = {
-        method: "PUT",
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+      // url = this.state.base_url + 'Products';
+      // settings = {
+      //   method: "PUT",
+      //   headers: {
+      //       Accept: 'application/json',
+      //       'Content-Type': 'application/json',
   
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-            'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
-        },
-        body:JSON.stringify(current_prod)
-      };
-      response = await fetch(url,settings);
-      data = await response.json();
-
+      //       'Access-Control-Allow-Origin': '*',
+      //       'Access-Control-Allow-Credentials': true,
+      //       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+      //       'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
+      //   },
+      //   body:JSON.stringify(current_prod)
+      // };
+      // response = await fetch(url,settings);
+      // data = await response.json();
       
       let newproducts = [];
 
       for (let i = 0; i < 6; i++) {
-        newproducts[i] = {key:i,barcode:"",count:"", product_name:"", supplier_Name:"", selling_Price:"",Branch_name:this.state.Branch_name};
+        newproducts[i] = {
+          key:i,
+          barcode:"",
+          count:"", 
+          product_name:"", 
+          supplier_Name:"", 
+          selling_Price:"",
+          Branch_name:this.state.Branch_name
+        };
         
       }
       
@@ -419,7 +452,15 @@ class App extends React.Component {
     let newproducts = [];
 
     for (let i = 0; i < 6; i++) {
-      newproducts[i] = {key:i,barcode:"",count:"", product_name:"", supplier_Name:"", selling_Price:"",Branch_name:this.state.Branch_name};
+      newproducts[i] = {
+        key:i,
+        barcode:"",
+        count:"", 
+        product_name:"", 
+        supplier_Name:"", 
+        selling_Price:"",
+        Branch_name:this.state.Branch_name
+      };
       
     }
     this.setState({
