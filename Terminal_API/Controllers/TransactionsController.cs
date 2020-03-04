@@ -40,7 +40,7 @@ namespace TERMINAL.Controllers
         {
             try
             {
-                var result = Data.Test(transaction);
+                var result = Data.MultiRequest(transaction);
 
                 return Ok(result);
             }

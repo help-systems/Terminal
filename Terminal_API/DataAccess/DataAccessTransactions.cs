@@ -19,8 +19,42 @@ namespace TERMINAL.DataAccess
             _connnection = new SqlConnection(_coneectionString);
         }
 
+        
+        public static List<ProductModel> Merge(List<ProductModel> list)
+        {
+            try
+            {
+                var temp = new List<ProductModel>();
 
-        public TransactionModel Test (TransactionModel tran)
+                foreach(var l in list)
+                {
+                    bool b = false;
+
+                    foreach(var t in temp)
+                    {
+                        if (l.Barcode == t.Barcode)
+                        {
+                            t.Count += l.Count;
+                            b = true;
+                            break;
+                        }
+                    }
+
+                    if (!b)
+                    {
+                        temp.Add(l);
+                    }
+                }
+                return temp;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+        }
+
+
+        public TransactionModel MultiRequest (TransactionModel tran)
         {
             SqlTransaction transaction = null;
 
@@ -29,7 +63,7 @@ namespace TERMINAL.DataAccess
             string Status = tran.Status;
             string Payment_Type = tran.Payment_Type;
             string Branch_name = tran.Branch_name;
-            List<ProductModel> ProductList = tran.ProductList;
+            List<ProductModel> ProductList = Merge(tran.ProductList);
 
             string SQL = $"EXEC PostTransaction '{Amount}','{Status}','{Payment_Type}','{Branch_name}'";
 
@@ -40,26 +74,25 @@ namespace TERMINAL.DataAccess
 
                 using (SqlCommand cmd = new SqlCommand(SQL, _connnection, transaction)) 
                 {
-                    //cmd.ExecuteNonQuery();
-
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
-                        {
-                            //int i = 0;
-                            
+                        {                            
                             Id = (Int64)reader.GetDecimal(0);
                         }
                     }
                 }
 
-                foreach (var l in ProductList)
+                if(ProductList != null)
                 {
-                    using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PutProducts '{0}','{1}','{2}'",
-                        l.Barcode, l.Branch_name, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
+                    foreach (var l in ProductList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PutProducts '{0}','{1}','{2}'",
+                            l.Barcode, l.Branch_name, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
 
-                    using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PostProductInTransaction '{0}','{1}',{2}",
-                        Id, l.Barcode, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
+                        using (SqlCommand cmd = new SqlCommand(string.Format("EXEC PostProductInTransaction '{0}','{1}',{2}",
+                            Id, l.Barcode, l.Count), _connnection, transaction)) { cmd.ExecuteNonQuery(); }
+                    }
                 }
 
                 transaction.Commit();
