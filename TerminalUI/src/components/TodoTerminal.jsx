@@ -17,11 +17,9 @@ class TodoTerminal extends React.Component {
                 <header>
                     <div id="logo">
                         <p>
-                            fffff
-                        {this.props.cashier_info.cashier_Name}
+                            {this.props.cashier_info.cashier_Name}
                         </p> 
                         <span>
-                            aaaa
                             {this.props.cashier_info.cashier_Rank}
                         </span>
                     </div>
