@@ -12,13 +12,16 @@ class TodoTerminal extends React.Component {
         const products = this.props.products;
         const transaction_list = this.props.transaction_list;
         return(
+            <div className = "App">
             <div id="todoterminal">
                 <header>
-                    <div>
+                    <div id="logo">
                         <p>
+                            fffff
                         {this.props.cashier_info.cashier_Name}
                         </p> 
                         <span>
+                            aaaa
                             {this.props.cashier_info.cashier_Rank}
                         </span>
                     </div>
@@ -165,7 +168,7 @@ class TodoTerminal extends React.Component {
                             }
                         </div>
                         <div id = "productinterminal">
-                            <table className="table">
+                            <table className="table table-bordered table-responsive-md table-striped text-center">
                                 <thead className="thead-dark">
                                     <tr>
                                         <th scope="col">Barcode</th>
@@ -181,7 +184,7 @@ class TodoTerminal extends React.Component {
 
                                             return (
                                                 <tr  key={item.key}>
-                                                    <td>
+                                                    <td className="pt-3-half">
                                                         <input
                                                             type="text" 
                                                             value = {item.barcode} 
@@ -193,16 +196,16 @@ class TodoTerminal extends React.Component {
                                                               }}
                                                         />
                                                     </td>
-                                                    <td>
+                                                    <td className="pt-3-half">
                                                         {item.product_name}
                                                     </td>
-                                                    <td>
+                                                    <td className="pt-3-half">
                                                         {item.supplier_Name}
                                                     </td>
-                                                    <td>
+                                                    <td className="pt-3-half">
                                                         {item.selling_Price}
                                                     </td>
-                                                    <td>
+                                                    <td className="pt-3-half">
                                                         <input 
                                                             type="number" 
                                                             min= '1' 
@@ -292,6 +295,7 @@ class TodoTerminal extends React.Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         );
     }
