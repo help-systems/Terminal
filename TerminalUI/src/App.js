@@ -12,8 +12,16 @@ class App extends React.Component {
       base_url: "http://localhost:58423/",
       cashier_info:"",
       branches:[],
+      Status:"Suspended",
+      delivery_Person:"",
+      delivery_ID:"",
+      is_filldeliveryinfo:true,
       Branch_name: "",
       transaction_list:[],
+      // transaction_list:[
+      //   {Id:1,Amount:400,Status:"completed"},
+      //   {Id:2,Amount:450,Status:"completed"}
+      // ],
       products:[],
       is_givenmoney: true,
       payment_Type:"Cash",
@@ -23,12 +31,14 @@ class App extends React.Component {
       brancherror:false,
       amount: 0,
       barcodes: {},
+      is_delivery:false,
       transaction:{amount: 0,
                   status: "",
                   payment_Type: "",
                   branch_name: "",
                   date: ""
-                }
+                },
+      showTransaction:false
     }
 
     this.Login = this.Login.bind(this);
@@ -319,75 +329,102 @@ class App extends React.Component {
     let transaction_list = this.state.transaction_list;
     let Payment_Type = this.state.payment_Type;
 
-    if(this.state.givenmoney === "") {
-      this.setState({
-        is_givenmoney: false
-      });
-    }
+    if(this.state.is_delivery){
 
-    if(this.state.amount !== 0 && this.state.givenmoney >= this.state.amount){
-
-      const products = this.state.products;
-      let current_prod = [];
-      for (let i = 0; i < products.length; i++){
-        if(products[i].barcode!==""){
-          current_prod.push(products[i]);
+      if(this.state.delivery_Person !=="" || this.state.delivery_ID !==""){
+        const products = this.state.products;
+        let current_prod = [];
+        for (let i = 0; i < products.length; i++){
+          if(products[i].barcode!==""){
+            current_prod.push(products[i]);
+          }
         }
-      }
 
-      let transaction = {
-        Id: transaction_list.length,
-        Amount: this.state.amount,
-        Status: "Completed",
-        Payment_Type,
-        Branch_name,
-        date:new Date(),
-        productList:current_prod
-      };
+        let transaction = {
 
-      transaction_list.push(transaction);
-
-      let url = this.state.base_url + 'Transactions'
-      let settings = {
-        method: "POST",
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-            'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
-        },
-        body:JSON.stringify(transaction)
-      };
-      let response = await fetch(url,settings);
-      let data = await response.json();
-    
-      // const products = this.state.products;
-      // let current_prod = [];
-      // for (let i = 0; i < products.length; i++){
-      //   if(products[i].barcode!==""){
-      //     current_prod.push(products[i]);
-      //   }
-      // }       
-
-      // url = this.state.base_url + 'Products';
-      // settings = {
-      //   method: "PUT",
-      //   headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
+          Id: this.state.delivery_ID,
+          Amount: this.state.amount,
+          Status: this.state.Status,
+          Payment_Type,
+          Branch_name,
+          date:new Date(),
+          productList:current_prod
+        };
   
-      //       'Access-Control-Allow-Origin': '*',
-      //       'Access-Control-Allow-Credentials': true,
-      //       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-      //       'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
-      //   },
-      //   body:JSON.stringify(current_prod)
-      // };
-      // response = await fetch(url,settings);
-      // data = await response.json();
+        transaction_list.push(transaction);
+  
+        let url = this.state.base_url + 'Transactions'
+        let settings = {
+          method: "PUT",
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+  
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+              'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
+          },
+          body:JSON.stringify(transaction)
+        };
+        let response = await fetch(url,settings);
+        let data = await response.json();
+
+        this.setState({
+          is_filldeliveryinfo:true
+        })
+      }else {
+        this.setState({
+          is_filldeliveryinfo:false
+        })
+      }
+    }else{
+      if(this.state.givenmoney === "") {
+        this.setState({
+          is_givenmoney: false
+        });
+      }
+  
+      if(this.state.amount !== 0 && this.state.givenmoney >= this.state.amount){
+  
+        const products = this.state.products;
+        let current_prod = [];
+        for (let i = 0; i < products.length; i++){
+          if(products[i].barcode!==""){
+            current_prod.push(products[i]);
+          }
+        }
+  
+        let transaction = {
+          Id: transaction_list.length,
+          Amount: this.state.amount,
+          Status: "Completed",
+          Payment_Type,
+          Branch_name,
+          date:new Date(),
+          productList:current_prod
+        };
+  
+        transaction_list.push(transaction);
+  
+        let url = this.state.base_url + 'Transactions'
+        let settings = {
+          method: "POST",
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+  
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials': true,
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+              'Access-Control-Allow-Headers': 'origin, content-type, accept, authorization',
+          },
+          body:JSON.stringify(transaction)
+        };
+        let response = await fetch(url,settings);
+        let data = await response.json();
+    }
+    
       
       let newproducts = [];
 
@@ -492,10 +529,37 @@ class App extends React.Component {
                   date: ""
                 }
     })
-
   }
 
+  toshowTransactions =()=>{
+    this.setState({
+      showTransaction: !this.state.showTransaction
+    })
+  }
 
+  todoDelivery = () => {
+    this.setState({
+      is_delivery: !this.state.is_delivery
+    })
+  }
+
+  handleStatus = (e) => {
+		this.setState({
+			Status:e.target.value
+		});
+  }
+  
+  handleinputeDelPerson = (e) => {
+		this.setState({
+			delivery_Person:e.target.value
+		});
+  }
+  
+  handleinputeDelID = (e) => {
+		this.setState({
+			delivery_ID:e.target.value
+		});
+  }
   render() {
     const loginsituation = this.state.loginsituation;
     return (
@@ -530,6 +594,17 @@ class App extends React.Component {
             handlePaymentType = {this.handlePaymentType}
             payment_Type = {this.state.payment_Type}
             is_givenmoney = {this.state.is_givenmoney}
+            toshowTransactions = {this.toshowTransactions}
+            showTransaction = {this.state.showTransaction}
+            todoDelivery = {this.todoDelivery}
+            is_delivery = {this.state.is_delivery}
+            Status = {this.state.Status}
+            handleStatus = {this.handleStatus}
+            delivery_Person= {this.state.delivery_Person}
+            handleinputeDelPerson = {this.handleinputeDelPerson}
+            delivery_ID= {this.state.delivery_ID}
+            handleinputeDelID = {this.handleinputeDelID}
+            is_filldeliveryinfo = {this.state.is_filldeliveryinfo}
           />
       }
       </>
