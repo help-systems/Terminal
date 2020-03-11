@@ -15,5 +15,7 @@ namespace TERMINAL.Models
 
         public DateTime Date { get; set; } = DateTime.Now;
         public List<ProductModel> ProductList { get; set; }
+
+        public int Delivery_Id { get; set; }
     }
 }

@@ -9,14 +9,11 @@ namespace TERMINAL.DataAccess
 {
     public class DataAccessCashiers
     {
-        private const string _coneectionString
-            = @"Data Source=DESKTOP-6NUHAOM\DROSQL;Initial Catalog=Supermarket_DB;Integrated Security=True";
-
         private SqlConnection _connnection;
 
         public DataAccessCashiers()
         {
-            _connnection = new SqlConnection(_coneectionString);
+            _connnection = new SqlConnection(AppSettings.ConnectionString);
         }
 
         public List<CashierModel> GetCashier(string username)

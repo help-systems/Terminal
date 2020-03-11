@@ -49,5 +49,21 @@ namespace TERMINAL.Controllers
                 return BadRequest(ex);
             }
         }
+
+
+        [HttpPut]
+        public IActionResult Put (TransactionModel transaction)
+        {
+            try
+            {
+                var result = Data.UpdateTransaction(transaction);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
