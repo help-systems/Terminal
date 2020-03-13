@@ -10,6 +10,7 @@ class TodoTerminal extends React.Component {
 
     render() {
         const products = this.props.products;
+        let i = 0;
         const transaction_list = this.props.transaction_list;
         return(
             <div className = "App">
@@ -47,7 +48,7 @@ class TodoTerminal extends React.Component {
                                     <ul>
                                         {transaction_list.map(item =>{ 
                                             return(
-                                                <li key={item.Id}>
+                                                <li key={i++}>
                                                     {"ID"}{"  "}
                                                     {item.Id}{"|  $"}
                                                     {item.Amount}{"|  "}

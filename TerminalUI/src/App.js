@@ -173,8 +173,6 @@ class App extends React.Component {
         });
       }
       else{
-        
-
         products.map(item=>{
           if(item.key === key) {
             item.barcode = barcode;
@@ -192,6 +190,9 @@ class App extends React.Component {
         
         
       }
+      this.setState({
+        count:1
+      })
     }
     else{
       products.map(item=>{
@@ -249,7 +250,7 @@ class App extends React.Component {
         loginerror: false
       });
     }
-    if(this.state.Branch_name === "" || this.state.Branch_name == "Select Branch") {
+    if(this.state.Branch_name === "" || this.state.Branch_name === "Select Branch") {
       this.setState({
         brancherror:true
       })
@@ -281,12 +282,14 @@ class App extends React.Component {
       };
       
     }
+    
     this.setState({
       products
     })
   }
 
   inputProductCount(key,e) {
+    
     var count = e.target.value;
     var products =  this.state.products;
     products.map(item=>{
@@ -327,29 +330,38 @@ class App extends React.Component {
 
     let Branch_name = this.state.Branch_name
     let transaction_list = this.state.transaction_list;
+    let Status = this.state.Status;
     let Payment_Type = this.state.payment_Type;
+    let Id = this.state.delivery_ID;
+    let delivery_Id = this.state.delivery_Person;
+    
+    const products = this.state.products;
+    let newproducts = [];
+    let current_prod = [];
+    for (let i = 0; i < products.length; i++){
+      if(products[i].barcode!==""){
+        current_prod.push(products[i]);
+      }
+    }
+    current_prod.map(item => {
+      item.count = Number(item.count)
+      return item;
+    })
 
     if(this.state.is_delivery){
-
-      if(this.state.delivery_Person !=="" || this.state.delivery_ID !==""){
-        const products = this.state.products;
-        let current_prod = [];
-        for (let i = 0; i < products.length; i++){
-          if(products[i].barcode!==""){
-            current_prod.push(products[i]);
-          }
-        }
-
+      if( this.state.delivery_Person !== "" && this.state.delivery_ID !== "" ) {
         let transaction = {
-
-          Id: this.state.delivery_ID,
+          Id:Number(Id),
           Amount: this.state.amount,
-          Status: this.state.Status,
+          Status,
           Payment_Type,
           Branch_name,
           date:new Date(),
-          productList:current_prod
+          productList:current_prod,
+          delivery_Id:Number(delivery_Id)
         };
+
+        console.log(transaction);
   
         transaction_list.push(transaction);
   
@@ -368,42 +380,45 @@ class App extends React.Component {
           body:JSON.stringify(transaction)
         };
         let response = await fetch(url,settings);
-        let data = await response.json();
 
+      for (let i = 0; i < 6; i++) {
+        newproducts[i] = {
+          key:i,
+          barcode:"",
+          count:"", 
+          product_name:"", 
+          supplier_Name:"", 
+          selling_Price:"",
+          Branch_name:this.state.Branch_name
+        };
+        
+      }
         this.setState({
           is_filldeliveryinfo:true
         })
-      }else {
+      }else{
         this.setState({
           is_filldeliveryinfo:false
         })
       }
-    }else{
-      if(this.state.givenmoney === "") {
-        this.setState({
-          is_givenmoney: false
-        });
-      }
-  
-      if(this.state.amount !== 0 && this.state.givenmoney >= this.state.amount){
-  
-        const products = this.state.products;
-        let current_prod = [];
-        for (let i = 0; i < products.length; i++){
-          if(products[i].barcode!==""){
-            current_prod.push(products[i]);
-          }
-        }
+      Payment_Type = "Delivery";
+      
+    }else if(this.state.amount !== 0 && this.state.givenmoney >= this.state.amount) {
+       
+        Status = "Completed";
+        // Id = "";
+        
   
         let transaction = {
-          Id: transaction_list.length,
-          Amount: this.state.amount,
-          Status: "Completed",
+          Amount: Number(this.state.amount),
+          Status,
           Payment_Type,
           Branch_name,
-          date:new Date(),
+          // date:new Date(),
           productList:current_prod
         };
+
+        console.log(transaction);
   
         transaction_list.push(transaction);
   
@@ -422,14 +437,19 @@ class App extends React.Component {
           body:JSON.stringify(transaction)
         };
         let response = await fetch(url,settings);
-        let data = await response.json();
+        this.setState({
+          is_givenmoney: true
+        });
+    } else {
+      this.setState({
+        is_givenmoney: false
+      })
     }
-    
-      
-      let newproducts = [];
+
+  let    mproducts = [];
 
       for (let i = 0; i < 6; i++) {
-        newproducts[i] = {
+        mproducts[i] = {
           key:i,
           barcode:"",
           count:"", 
@@ -440,16 +460,17 @@ class App extends React.Component {
         };
         
       }
-      
-      this.setState({
-        products:newproducts,
-        amount: 0,
-        givenmoney: "",
-        transaction_list,
-        is_givenmoney: true,
-        payment_Type:"Cash"
-      })
-    }
+    this.setState({
+      products:mproducts,
+      amount: 0,
+      givenmoney: "",
+      transaction_list,
+      delivery_Person:"",
+      is_delivery:false,
+      delivery_ID:"",
+      payment_Type:"Cash",
+
+   })
     
   }
 
@@ -457,7 +478,7 @@ class App extends React.Component {
   async transactionCanceled(){
 
     let transaction_list = this.state.transaction_list;
-    const products = this.state.products;
+   // const products = this.state.products;
     let Branch_name = this.state.Branch_name;
     let Payment_Type = this.state.payment_Type
 
